@@ -1,0 +1,12 @@
+{
+    "name": "rider",
+    "description": "rider api server",
+    "version": "0.0.1",
+    "private": true,
+    "dependencies": {
+    	"express": "3.x",
+    	"mongoose": "3.x",
+    	"crypto": "0.0.3",
+    	"hashmap": "1.0.0"
+    }
+}

@@ -1,0 +1,7 @@
+user = {
+	name: {type: String, required: true, index: { unique: true, sparse: true }, set: toLower},
+	salt: String,
+	pass: String,
+	email: String,
+	phone: String
+}
