@@ -1,4 +1,4 @@
 rider
 ============
 
-A web api for rider clinet
+A web api for rider.
