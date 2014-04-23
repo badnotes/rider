@@ -3,6 +3,8 @@ var User = require('../services').User;
 var UserModel = require('../models').User;
 var Result = require('../libs/result');
 var Utils = require('../libs/utils');
+var log4js = require('log4js');
+var logger = log4js.getLogger();
 
 /**
 * 用户登录
@@ -10,7 +12,7 @@ var Utils = require('../libs/utils');
 exports.login = function(req, res, next, callback) {
 	var _name = req.query.name;
 	var _pass = req.query.pass;
-	console.log("controller/user # user is login: %s.", _name);
+	logger.info("controller/user#login: %s is login.", _name);
 	User.getUserByName(_name, function (err, user) {
 		if (err) {
 			return next(err);
@@ -27,7 +29,7 @@ exports.login = function(req, res, next, callback) {
 			return ;
 		}
 		//JSON.stringify(result)
-		res.json(new Result(203, ""));
+		res.json(new Result(403, ""));
 	});
 };
 

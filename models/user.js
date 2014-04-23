@@ -6,7 +6,10 @@ var UserSchema = new Schema({
 	salt: String,
 	pass: String,
 	email: String,
-	phone: String
+	phone: String,
+	photo: String,
+	age: Number,
+	city: String
 });
 
 function toLower(string) {

@@ -38,6 +38,11 @@ var ResultEnum = {
 		type: 406,
 		message: "未登录",
 		data: ""
+	},
+	ERROR_INVOKE:{
+		type: 500,
+		message: "系统错误,请稍后再试.",
+		data: ""
 	}
 
 

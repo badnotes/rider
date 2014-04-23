@@ -2,7 +2,8 @@ var user = require('./controllers/user');
 var Result = require('./libs/result');
 var Session = require('./libs/session');
 var HashMap = require('hashmap').HashMap;
-
+var log4js = require('log4js');
+var logger = log4js.getLogger();
 
 // 存储在线用户
 var userMap = new HashMap();
@@ -17,12 +18,18 @@ module.exports = function (app){
 	app.get('/login', function(req, res, next) {
 		user.login(req, res, next, function(uname, sid){
 			userMap.set(uname,new Session(nowTime(), sid ));
-			console.log("Now online user size: " + userMap.count());
+			logger.info("Now online user size: " + userMap.count());
 		});
 	});
 	
 	app.get('/users', user.users);
-	app.get('/signup', user.add);
+	app.post('/signup', user.add);
+
+	// 系统错误
+	app.use(function(err, req, res, next){
+		console.error(err.stack);
+	  	res.json(new Result(500, "internal error."));
+	});
 };
 
 // 认证用户信息

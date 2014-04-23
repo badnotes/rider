@@ -3,5 +3,8 @@ user = {
 	salt: String,
 	pass: String,
 	email: String,
-	phone: String
+	phone: String，
+	photo: String,
+	age: Number,
+	city: String
 }
