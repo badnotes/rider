@@ -9,5 +9,9 @@ mongoose.connect(config.db, function (err){
 });
 
 require('./user');
+require('./activity');
+require('./userid');
 
 exports.User = mongoose.model('User');
+exports.Activity = mongoose.model('Activity');
+exports.Userid = mongoose.model('Userid');

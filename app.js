@@ -6,11 +6,14 @@ var app = express();
 // log
 log4js.configure({
     appenders: [{type: 'console'},
-                {type: 'file', filename: 'logs/reider_log.log', category: 'dev'}]
+                {type: 'file', filename: '/app/logs/rider_log.log', category: 'dev'}]
 });
 var logger = log4js.getLogger('dev');
 logger.setLevel('DEBUG');
 app.use(log4js.connectLogger(logger, {level: log4js.levels.DEBUG}));
+
+app.use(express.json());
+app.use(express.urlencoded());
 
 // routes
 routes(app);

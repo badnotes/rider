@@ -1,50 +1,74 @@
-var Result = function (type, data) {
-	for (var i in ResultEnum) {
-		if (ResultEnum[i].type === type){
-			ResultEnum[i].data = data;
-			return ResultEnum[i];
-		}
-	}
-	return ResultEnum.ERROR_RESULT;
+var Result = {
+
+    SUCCESS: {
+        type: 200,
+        message: "Success",
+        data: "",
+        build: function (data, message){
+            return Result.build(this, data, message);
+        }
+    },
+    FAIL: {
+        type: 300,
+        message: "Fail",
+        data: "",
+        build: function (data, message){
+            return Result.build(this, data, message);
+        }
+    },
+    ERROR_PARAMS: {
+        type: 400,
+        message: "Params is error",
+        data: "",
+        build: function (data, message){
+            return Result.build(this, data, message);
+        }
+    },
+    ERROR_RESULT: {
+        type: 401,
+        message: "Result params error.",
+        data: "",
+        build: function (data, message){
+            return Result.build(this, data, message);
+        }
+    },
+    ERROR_NO_RESULT: {
+        type: 403,
+        message: "nil",
+        data: "",
+        build: function (data, message){
+            return Result.build(this, data, message);
+        }
+    },
+    ERROR_SESSION:{
+        type: 406,
+        message: "未登录",
+        data: "",
+        build: function (data, message){
+            return Result.build(this, data, message);
+        }
+    },
+    ERROR_INVOKE:{
+        type: 500,
+        message: "系统错误,请稍后再试.",
+        data: "",
+        build: function (data, message){
+            return Result.build(this, data, message);
+        }
+    },
+
+    build: function(_type, _data, _message) {
+        var result = {type: _type.type, message: _type.message, data: _type.data};
+        if(!!_message){
+            result.message = _message;
+        }
+        if(!!_data){
+            result.data = _data;
+        }
+        return result;
+    }
+
 };
-
-var ResultEnum = {
-	SUCCESS: {
-		type: 200,
-		message: "Success",
-		data: ""
-	},
-	FAIL: {
-		type: 300,
-		message: "Fail",
-		data: ""
-	},
-	ERROR_PARAMS: {
-		type: 400,
-		message: "Params is error",
-		data: ""	
-	},
-	ERROR_RESULT: {
-		type: 401,
-		message: "Result params error.",
-		data: ""
-	},
-	ERROR_NO_RESULT: {
-		type: 403,
-		message: "nil",
-		data: ""
-	},
-	ERROR_SESSION:{
-		type: 406,
-		message: "未登录",
-		data: ""
-	},
-	ERROR_INVOKE:{
-		type: 500,
-		message: "系统错误,请稍后再试.",
-		data: ""
-	}
-
 
 	// SUCCESS(				200,"成功"),
 	// NEW_VERSION(			201,"有可更新版本"),
@@ -61,5 +85,4 @@ var ResultEnum = {
 	// ERROR_INVOKE(		500,"系统错误,请稍后再试."),
 	// ERROR_UNKNOWN(		501,"未知错误");
 
-}
 module.exports = Result;
