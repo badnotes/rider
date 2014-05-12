@@ -3,6 +3,7 @@ var User = require('../services').User;
 var UserModel = require('../models').User;
 var Result = require('../libs/result');
 var Utils = require('../libs/utils');
+var Constants = require('../libs/constants');
 var log4js = require('log4js');
 var logger = log4js.getLogger();
 var fs = require('fs');
@@ -96,29 +97,72 @@ exports.photo = function (req, res, next) {
     });
 };
 
+/*
+* update user photo
+ */
 exports.updatePhoto = function (req, res, next) {
 	var _name = req.query.name;
-	var B64photo = req.body.photo;
-    console.log(B64photo);
-    if(!B64photo){
+	var base64photo = req.body.photo;
+    if(!base64photo){
         res.json(Result.ERROR_PARAMS);
         return;
     }
-    var buffer = new Buffer(B64photo, 'base64');
-    if (!!buffer){
-        res.json(Result.ERROR_PARAMS);
-        return;
-    }
-    fs.writeFile("/app/rider/images/test.jpg", buffer, function(err) {
-        if(err) {
-            logger.error(err);
-            next(err);
-        } else {
-            res.json(Result.SUCCESS);
-        }
+    var datePath = Utils.generateSecondPath();
+    var filePath = Constants.photo_path + datePath;
+    var fileName =  _name + Constants.photo_format;
+    var fileUrl = Constants.photo_host + datePath + fileName;
+    Utils.mkdirs(filePath, "0777", function(){
+        fs.writeFile(filePath + fileName, base64photo, 'base64', function(err) {
+            if(err) {
+                logger.error(err);
+                next(err);
+            } else {
+                logger.info(fileUrl);
+                User.updatePhoto(_name, fileUrl, function() {
+                    if(err) {
+                        logger.error(err);
+                        next(err);
+                    }
+                    else{
+                        res.json(Result.SUCCESS);
+                    }
+                });
+            }
+        });
     });
 };
 
+/*
+* update user background
+ */
 exports.updateBg = function (req, res, next) {
-
+    var _name = req.query.name;
+    var base64Bg = req.body.background;
+    if(!base64Bg){
+        res.json(Result.ERROR_PARAMS);
+        return;
+    }
+    var datePath = Utils.generateSecondPath();
+    var filePath = Constants.background_path + datePath;
+    var fileName =  _name + Constants.background_format;
+    var fileUrl = Constants.background_host + datePath + fileName;
+    Utils.mkdirs(filePath, "0777", function(){
+        fs.writeFile(filePath + fileName, base64Bg, 'base64', function(err) {
+            if(err) {
+                logger.error(err);
+                next(err);
+            } else {
+                logger.info(fileUrl);
+                User.updateBackground(_name, fileUrl, function() {
+                    if(err) {
+                        logger.error(err);
+                        next(err);
+                    }
+                    else{
+                        res.json(Result.SUCCESS);
+                    }
+                });
+            }
+        });
+    });
 };

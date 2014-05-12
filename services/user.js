@@ -12,7 +12,7 @@ exports.getUserByName = function(name, callback) {
 
 exports.list = function (page, callback) {
 	User.find({}, {'name': 1, 'uid': 1, '_id': 0}, {skip: (page -1) * 10}, callback);
-}
+};
 
 exports.add = function(user, callback) {
 	console.log("user is %s.", user);	
@@ -32,8 +32,16 @@ exports.add = function(user, callback) {
 		user.set('uid', newuid.uid);
 		user.save();
 	});
-}
+};
 
 exports.photo = function (name, callback) {
 	User.findOne({'name': name}, {'photo': 1}, callback);
-}
+};
+
+exports.updatePhoto = function (name, url, callback) {
+    User.update({"name": name}, {$set: {"photo": url}}, callback);
+};
+
+exports.updateBackground = function (name, url, callback) {
+    User.update({"name": name}, {$set: {"background": url}}, callback);
+};
